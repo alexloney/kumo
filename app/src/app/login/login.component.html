@@ -1,0 +1,26 @@
+<h1>Kumoricon RPG Signups</h1>
+
+<div>
+<p-button label="Admin Login" routerLink="/adminlogin"></p-button>
+</div>
+<div>
+<p-button label="DM Login" routerLink="/dmlogin"></p-button>
+</div>
+
+<p-tabView>
+    <p-tabPanel header="Login">
+        <div>
+            <input pInputText type="text" placeholder="Kumoricon ID" [(ngModel)]="kumoId" />
+        </div>
+        <p-button label="Login" (click)="handleLogin($event)" ></p-button>
+    </p-tabPanel>
+    <p-tabPanel header="Register">
+        <div>
+            <input pInputText type="text" placeholder="Kumoricon ID" [(ngModel)]="kumoId" />
+        </div>
+        <div>
+            <input pInputText type="text" placeholder="Name" [(ngModel)]="name" />
+        </div>
+        <p-button label="Register" (click)="handleRegister($event)" ></p-button>
+    </p-tabPanel>
+</p-tabView>

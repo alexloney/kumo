@@ -1,0 +1,10 @@
+<p>games works!</p>
+<p>Filter Str: {{ m_filterStr }}</p>
+<p>Type: {{ m_type }}</p>
+<p>DM: {{ m_dm }}</p>
+<p>System: {{ m_system }}</p>
+<p>Open Games: {{ m_openGames }}</p>
+
+<div *ngFor="let game of m_filteredGames">
+    {{ game.title }}
+</div>

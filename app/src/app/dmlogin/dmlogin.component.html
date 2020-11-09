@@ -1,0 +1,17 @@
+<h1>Kumoricon RPG Signups - DM Login</h1>
+
+<div>
+<p-button label="Player Login" routerLink="/login"></p-button>
+</div>
+<div>
+<p-button label="Admin Login" routerLink="/adminlogin"></p-button>
+</div>
+
+
+<div>
+    <input pInputText type="text" placeholder="DM ID" [(ngModel)]="dmId" />
+</div>
+<div>
+    <input pInputText type="password" placeholder="Password" [(ngModel)]="password" />
+</div>
+<p-button label="Login" (click)="handleLogin($event)" ></p-button>

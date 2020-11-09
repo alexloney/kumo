@@ -1,0 +1,21 @@
+<div class="sidenav">
+    <div>Hello, {{ userService.getName() }}</div>
+    <a [ngClass]="{'selected': pageType === PT_ALLGAMES}" (click)="viewAllGames()">All Games</a>
+    <a [ngClass]="{'selected': pageType === PT_MYGAMES}" (click)="viewMyGames()">My Games</a>
+    <a (click)="logout()">Logout</a>
+</div>
+<div class="main">
+    <div><app-filter
+            [filterStr]="filterStr" (filterStrChange)="filterStr=$event"
+            [type]="filterType" (typeChange)="filterType=$event"
+            [dm]="filterDm" (dmChange)="filterDm=$event"
+            [system]="filterSystem" (systemChange)="filterSystem=$event"
+            [openGames]="filterOpenGames" (openGamesChange)="filterOpenGames=$event"
+            ></app-filter></div>
+    <div><app-games
+            [filterStr]="filterStr"
+            [type]="filterType"
+            [dm]="filterDm"
+            [system]="filterSystem"
+            [openGames]="filterOpenGames"></app-games></div>
+</div>
