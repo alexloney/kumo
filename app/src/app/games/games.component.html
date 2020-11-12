@@ -1,10 +1,17 @@
-<p>games works!</p>
+<!--
 <p>Filter Str: {{ m_filterStr }}</p>
 <p>Type: {{ m_type }}</p>
 <p>DM: {{ m_dm }}</p>
 <p>System: {{ m_system }}</p>
 <p>Open Games: {{ m_openGames }}</p>
+-->
 
 <div *ngFor="let game of m_filteredGames">
-    {{ game.title }}
+    <span *ngIf="game.registered.includes(userService.getMyId()) || game.waitlisted.includes(userService.getMyId())">
+        <p-button label="Drop" (click)="dropGame($event, game)"></p-button>
+    </span>
+    <span *ngIf="!game.registered.includes(userService.getMyId()) && !game.waitlisted.includes(userService.getMyId())">
+        <p-button label="Register" (click)="registerGame($event, game)"></p-button>
+    </span>
+    <app-game [gameData]="game"></app-game>
 </div>

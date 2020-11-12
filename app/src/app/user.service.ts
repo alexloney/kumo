@@ -11,6 +11,7 @@ export class UserService {
 
   private userType: number = this.UNKNOWN;
   private name: string = '';
+  private userId: number = 0;
 
   constructor() {}
 
@@ -24,6 +25,7 @@ export class UserService {
     return new Promise((resolve, reject) => {
       this.userType = this.UNKNOWN;
       this.name = '';
+      this.userId = 0;
 
       resolve();
 
@@ -47,6 +49,7 @@ export class UserService {
       // TODO: Perform actual DB communication to log user in
       this.userType = this.USER;
       this.name = 'Alex';
+      this.userId = 1;
       resolve();
     });
   }
@@ -100,5 +103,10 @@ export class UserService {
   {
     if (typeof str !== "string") return false;
     return !isNaN(str as any) && !isNaN(parseFloat(str));
+  }
+
+  public getMyId(): number
+  {
+    return this.userId;
   }
 }

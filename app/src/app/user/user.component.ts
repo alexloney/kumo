@@ -1,3 +1,4 @@
+import { GamesService } from './../games.service';
 import { MessageService } from 'primeng/api';
 import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
@@ -54,7 +55,8 @@ export class UserComponent implements OnInit {
   constructor(
     public userService: UserService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private gamesService: GamesService
   ) {
     if (!userService.loggedIn() || !userService.isUser())
     {
@@ -88,5 +90,4 @@ export class UserComponent implements OnInit {
       }
     )
   }
-
 }

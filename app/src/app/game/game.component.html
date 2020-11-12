@@ -1,1 +1,9 @@
-<p>game works!</p>
+
+<div class="p-grid">
+    <div class="p-col-12">{{ gameData.title }} ({{ gameData.system }})</div>
+    <div class="p-col-3">{{ gameData.dm }}</div>
+    <div class="p-col-3">{{ gameData.day }} @ {{ gameData.time }}</div>
+    <div class="p-col-3">Reg: {{ gameData.registered.length }} / {{ gameData.registermax }}</div>
+    <div class="p-col-3">Wait: {{ gameData.waitlisted.length }} / {{ gameData.waitlistmax }}</div>
+    <div class="p-col-12">{{ gameData.description }}</div>
+</div>

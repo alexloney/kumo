@@ -1,6 +1,7 @@
+import { UserService } from './../user.service';
 import { MessageService } from 'primeng/api';
 import { GamesService } from './../games.service';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-games',
@@ -30,18 +31,10 @@ export class GamesComponent implements OnInit, OnChanges {
   public m_filteredGames: GameData[];
 
   constructor(private gamesService: GamesService,
-    private messageService: MessageService) {
-    this.gamesService.getAllGames().then(
-      (success) => {
-        this.m_allGames = success;
-      },
-      (failure) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Getting Games Failure',
-          detail: failure});
-      }
-    );
+    private messageService: MessageService,
+    public userService: UserService) {
+
+      this.refreshGames();
   }
 
   ngOnInit(): void {
@@ -73,13 +66,28 @@ export class GamesComponent implements OnInit, OnChanges {
     this.applyGameFilter();
   }
 
+  private refreshGames(): void {
+    this.gamesService.getAllGames().then(
+      (success) => {
+        this.m_allGames = success;
+        this.applyGameFilter();
+      },
+      (failure) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Getting Games Failure',
+          detail: failure});
+      }
+    );
+  }
+
   public applyGameFilter(): void
   {
     this.m_filteredGames = [];
     for (const game of this.m_allGames)
     {
       let pass = true;
-      if (this.m_dm !== 0)
+      if (typeof this.m_dm !== 'undefined' && this.m_dm !== 0)
       {
         if (game.dmid !== this.m_dm)
         {
@@ -87,7 +95,7 @@ export class GamesComponent implements OnInit, OnChanges {
         }
       }
 
-      if (this.m_system !== 0)
+      if (typeof this.m_system !== 'undefined' && this.m_system !== 0)
       {
         if (game.systemid !== this.m_system)
         {
@@ -95,7 +103,7 @@ export class GamesComponent implements OnInit, OnChanges {
         }
       }
 
-      if (this.m_filterStr.length > 0)
+      if (typeof this.m_filterStr !== 'undefined' && this.m_filterStr.length > 0)
       {
         const tmpStr = this.m_filterStr.toLowerCase().replace(/\W/g, '');
         const tmpTitle = game.title.toLowerCase().replace(/\W/g, '');
@@ -108,7 +116,7 @@ export class GamesComponent implements OnInit, OnChanges {
         }
       }
 
-      if (this.m_openGames)
+      if (typeof this.m_openGames !== 'undefined' && this.m_openGames)
       {
         if (game.registered.length >= game.registermax)
         {
@@ -116,10 +124,14 @@ export class GamesComponent implements OnInit, OnChanges {
         }
       }
 
-      if (this.m_type === this.FT_MY)
+      if (typeof this.m_type !== 'undefined' && this.m_type === this.FT_MY)
       {
-        // TODO: Need to check if my user ID is in the
-        //       game.registered or game.waitlisted arrays
+        let myId = this.userService.getMyId();
+        if (!(game.registered.includes(myId) ||
+            game.waitlisted.includes(myId)))
+        {
+          pass = false;
+        }
       }
 
       if (pass)
@@ -127,6 +139,38 @@ export class GamesComponent implements OnInit, OnChanges {
         this.m_filteredGames.push(game);
       }
     }
+  }
+
+  public registerGame(e: Event, game: GameData): void
+  {
+    console.log('Emitting register');
+    this.gamesService.registerGame(game.id).then(
+      (success) => {
+        this.refreshGames();
+      },
+      (failure) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Register Error',
+          detail: failure});
+      }
+    );
+  }
+
+  public dropGame(e: Event, game: GameData): void
+  {
+    console.log('Emitting drop');
+    this.gamesService.dropGame(game.id).then(
+      (success) => {
+        this.refreshGames();
+      },
+      (failure) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Register Error',
+          detail: failure});
+      }
+    );
   }
 
 }
