@@ -109,4 +109,26 @@ export class UserService {
   {
     return this.userId;
   }
+
+  public getUserNames(ids: number[]): any
+  {
+    return new Promise((resolve, reject) => {
+      // TODO: Actual database communication
+
+      const lookup = {
+        0: 'admin',
+        1: 'John',
+        2: 'Chad',
+        3: 'Brandon',
+        4: 'Sarah',
+        5: 'Smith',
+        6: 'Jacob',
+        7: 'Johnson',
+        8: 'Clark',
+        9: 'Klim'
+      };
+
+      resolve(lookup);
+    });
+  }
 }

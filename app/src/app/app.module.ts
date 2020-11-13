@@ -19,6 +19,7 @@ import {ToastModule} from 'primeng/toast';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {DropdownModule} from 'primeng/dropdown';
 import {CheckboxModule} from 'primeng/checkbox';
+import {DialogModule} from 'primeng/dialog';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { DMLoginComponent } from './dmlogin/dmlogin.component';
@@ -53,7 +54,8 @@ import { GameComponent } from './game/game.component';
     ToastModule,
     CommonModule,
     DropdownModule,
-    CheckboxModule
+    CheckboxModule,
+    DialogModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

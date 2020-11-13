@@ -1,5 +1,66 @@
+<p-dialog appendTo="body" [(visible)]="showDialog" [modal]="true" [style]="{width: '75%'}">
+    <p-header>
+        {{ gameData.title }}
+    </p-header>
+    <p-tabView>
+        <p-tabPanel header="Details">
+            <div class="p-grid">
+                <div class="p-col-2 label-text">Name:</div>
+                <div class="p-col-10">{{ gameData.title }}</div>
+        
+                <div class="p-col-2 label-text">DM:</div>
+                <div class="p-col-10">{{ gameData.dm }}</div>
+        
+                <div class="p-col-2 label-text">Game System:</div>
+                <div class="p-col-10">{{ gameData.system }}</div>
+        
+                <div class="p-col-2 label-text">Day:</div>
+                <div class="p-col-10">{{ gameData.day }}</div>
+        
+                <div class="p-col-2 label-text">Time:</div>
+                <div class="p-col-10">{{ gameData.time }}</div>
+        
+                <div class="p-col-2 label-text">Description:</div>
+                <div class="p-col-10">{{ gameData.description }}</div>
+        
+                <div class="p-col-2 label-text">Registered:</div>
+                <div class="p-col-10">{{ gameData.registered.length }} / {{ gameData.registermax }}</div>
+        
+                <div class="p-col-2 label-text">Waitlisted:</div>
+                <div class="p-col-10">{{ gameData.waitlisted.length }} / {{ gameData.waitlistmax }}</div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Registered">
+            <span *ngIf="userLookup">
+                <div *ngFor="let user of gameData.registered">
+                    {{ userLookup[user] }}
+                </div>
+            </span>
+        </p-tabPanel>
+        <p-tabPanel header="Waitlist">
+            <span *ngIf="userLookup">
+                <div *ngFor="let user of gameData.waitlisted">
+                    {{ userLookup[user] }}
+                </div>
+            </span>
+        </p-tabPanel>
+    </p-tabView>
+    <div class="p-grid">
+        
+    </div>
+    <p-footer>
+        <span *ngIf="gameData.registered.includes(userService.getMyId()) || gameData.waitlisted.includes(userService.getMyId())">
+            <button pButton type="button" label="Remove Registration"></button>
+        </span>
+        <span *ngIf="!(gameData.registered.includes(userService.getMyId()) || gameData.waitlisted.includes(userService.getMyId()))">
+            <button pButton type="button" label="Register" [disabled]="gameData.registered.length >= gameData.registermax && gameData.waitlisted.length >= gameData.waitlistmax"></button>
+        </span>
 
-<div class="p-grid">
+        <button pButton type="button" label="Cancel" (click)="showDialog = !showDialog"></button>
+    </p-footer>
+</p-dialog>
+
+<div class="p-grid" (click)="showDialog = !showDialog">
     <div class="p-col-12">{{ gameData.title }} ({{ gameData.system }})</div>
     <div class="p-col-3">{{ gameData.dm }}</div>
     <div class="p-col-3">{{ gameData.day }} @ {{ gameData.time }}</div>
