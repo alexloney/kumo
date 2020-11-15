@@ -53,4 +53,10 @@ export class GameComponent implements OnInit, OnChanges {
     );
   }
 
+  public registerChange(): void {
+    setTimeout(() => {
+      this.populateUserLookup();
+    }, 500);
+  }
+
 }
