@@ -50,10 +50,10 @@
     </div>
     <p-footer>
         <span *ngIf="gameData.registered.includes(userService.getMyId()) || gameData.waitlisted.includes(userService.getMyId())">
-            <button pButton type="button" label="Remove Registration" (click)="unRegisterGame.emit(gameData.id); registerChange()"></button>
+            <button pButton type="button" label="Remove Registration" (click)="unRegisterGame.emit(gameData.id)"></button>
         </span>
         <span *ngIf="!(gameData.registered.includes(userService.getMyId()) || gameData.waitlisted.includes(userService.getMyId()))">
-            <button pButton type="button" label="Register" [disabled]="gameData.registered.length >= gameData.registermax && gameData.waitlisted.length >= gameData.waitlistmax" (click)="registerGame.emit(gameData.id); registerChange()"></button>
+            <button pButton type="button" label="Register" [disabled]="gameData.registered.length >= gameData.registermax && gameData.waitlisted.length >= gameData.waitlistmax" (click)="registerGame.emit(gameData.id)"></button>
         </span>
 
         <button pButton type="button" label="Cancel" (click)="showDialog = !showDialog"></button>

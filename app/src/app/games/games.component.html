@@ -8,6 +8,7 @@
 
 <div *ngFor="let game of m_filteredGames">
     <app-game [gameData]="game"
+        [refresh]="game.refresh"
         (registerGame)="registerGameById($event)"
         (unRegisterGame)="dropGameById($event)"></app-game>
     <span *ngIf="game.registered.includes(userService.getMyId()) || game.waitlisted.includes(userService.getMyId())">

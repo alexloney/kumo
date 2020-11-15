@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { maxHeaderSize } from 'http';
 
 @Injectable({
   providedIn: 'root'
@@ -27,12 +26,13 @@ export class DatabaseService {
         day: 'Friday',
         dayid: 1,
         time: '2:00 pm',
-        timeid: 1,
+        timeid: 5,
         registermax: 7,
         registered: [2, 3, 4],
         waitlistmax: 4,
         waitlisted: [],
-        description: 'Tales Trees Tell is an adventure module set in the Forgotten Realms using the Dungeons & Dragons 5th edition ruleset. It is part of the Tyranny of Dragons series of adventures published for the D&D Adventurers League. It focuses on Phalan and is an adventure designed for three to seven 1st- to 4th-level characters.'
+        description: 'Tales Trees Tell is an adventure module set in the Forgotten Realms using the Dungeons & Dragons 5th edition ruleset. It is part of the Tyranny of Dragons series of adventures published for the D&D Adventurers League. It focuses on Phalan and is an adventure designed for three to seven 1st- to 4th-level characters.',
+        refresh: 0
       });
     this.allGames.push({
         id: 2,
@@ -44,12 +44,13 @@ export class DatabaseService {
         day: 'Friday',
         dayid: 1,
         time: '2:00 pm',
-        timeid: 1,
+        timeid: 5,
         registermax: 7,
         registered: [1, 2, 3, 4, 5, 6, 7],
         waitlistmax: 4,
         waitlisted: [],
-        description: 'Tales Trees Tell is an adventure module set in the Forgotten Realms using the Dungeons & Dragons 5th edition ruleset. It is part of the Tyranny of Dragons series of adventures published for the D&D Adventurers League. It focuses on Phalan and is an adventure designed for three to seven 1st- to 4th-level characters.'
+        description: 'Tales Trees Tell is an adventure module set in the Forgotten Realms using the Dungeons & Dragons 5th edition ruleset. It is part of the Tyranny of Dragons series of adventures published for the D&D Adventurers League. It focuses on Phalan and is an adventure designed for three to seven 1st- to 4th-level characters.',
+        refresh: 0
       });
 
     this.gameTypes = [];
@@ -173,29 +174,41 @@ export class DatabaseService {
       {
         if (game.id === gameId)
         {
+          let removed = false;
           for (let j = 0; j < game.registered.length; ++j)
           {
             if (game.registered[j] === userId)
             {
               game.registered.splice(j, 1);
               --j;
-              resolve();
-              return;
+              removed = true;
+              break;
             }
           }
-          for (let j = 0; j < game.waitlisted.length; ++j)
-          {
-            if (game.waitlisted[j] === userId)
+          if (!removed) {
+            for (let j = 0; j < game.waitlisted.length; ++j)
             {
-              game.waitlisted.splice(j, 1);
-              --j;
-              resolve();
-              return;
+              if (game.waitlisted[j] === userId)
+              {
+                game.waitlisted.splice(j, 1);
+                --j;
+                removed = true;
+                break;
+              }
             }
           }
 
-          reject('You were not registerd for that game');
-          return;
+          if (removed) {
+            while (game.registered.length < game.registermax && game.waitlisted.length > 0) {
+              game.registered.push(game.waitlisted.shift());
+            }
+            resolve();
+            return;
+          }
+          else {
+            reject('You were not registerd for that game');
+            return;
+          }
         }
       }
 

@@ -5,6 +5,8 @@
     <p-dropdown [options]="m_types" [(ngModel)]="m_type" (onChange)="ddTypeChange($event)"></p-dropdown>
     <p-dropdown [options]="m_dms" [(ngModel)]="m_dm" (onChange)="ddDmChange($event)"></p-dropdown>
     <p-dropdown [options]="m_systems" [(ngModel)]="m_system" (onChange)="ddSystemChange($event)"></p-dropdown>
+    <p-dropdown [options]="m_days" [(ngModel)]="m_day" (onChange)="ddDayChange($event)"></p-dropdown>
+    <p-dropdown [options]="m_times" [(ngModel)]="m_time" (onChange)="ddTimeChange($event)"></p-dropdown>
 </div>
 <div>
     <p-checkbox [(ngModel)]="m_openGames" binary="true" inputId="binary"></p-checkbox>

@@ -21,6 +21,8 @@ export class UserComponent implements OnInit {
 
   private FT_ANYDM = 0;
   private FT_ANYSYSTEM = 0;
+  private FT_ANYDAY = 0;
+  private FT_ANYTIME = 0;
 
   private m_filterType: number = this.FT_MY;
   get filterType(): number
@@ -50,6 +52,8 @@ export class UserComponent implements OnInit {
   public filterStr: string = '';
   public filterDm: number = this.FT_ANYDM;
   public filterSystem: number = this.FT_ANYSYSTEM;
+  public filterDay: number = this.FT_ANYDAY;
+  public filterTime: number = this.FT_ANYTIME;
   public filterOpenGames: boolean = false;
 
   constructor(

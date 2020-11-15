@@ -13,6 +13,8 @@ export class FilterComponent implements OnInit, OnChanges {
   public m_types: SelectItem[];
   public m_dms: SelectItem[];
   public m_systems: SelectItem[];
+  public m_days: SelectItem[];
+  public m_times: SelectItem[];
 
   private mm_filterStr;
   get m_filterStr(): string
@@ -27,6 +29,8 @@ export class FilterComponent implements OnInit, OnChanges {
   public m_type;
   public m_dm;
   public m_system;
+  public m_day;
+  public m_time;
   private mm_openGames;
   get m_openGames(): boolean
   {
@@ -42,11 +46,15 @@ export class FilterComponent implements OnInit, OnChanges {
   @Input() type;
   @Input() dm;
   @Input() system;
+  @Input() day;
+  @Input() time;
   @Input() openGames;
   @Output() filterStrChange = new EventEmitter<string>();
   @Output() typeChange = new EventEmitter<number>();
   @Output() dmChange = new EventEmitter<number>();
   @Output() systemChange = new EventEmitter<number>();
+  @Output() dayChange = new EventEmitter<number>();
+  @Output() timeChange = new EventEmitter<number>();
   @Output() openGamesChange = new EventEmitter<boolean>();
 
   constructor(
@@ -61,6 +69,12 @@ export class FilterComponent implements OnInit, OnChanges {
     ];
     this.m_systems = [
       {label: 'Any System', value: {id: 0, name: 'Any', code: 'Any'}}
+    ];
+    this.m_days = [
+      {label: 'Any Day', value: {id: 0, name: 'Any', code: 'Any'}}
+    ];
+    this.m_times = [
+      {label: 'Any Time', value: {id: 0, name: 'Any', code: 'Any'}}
     ];
 
     this.gamesService.getTypeList().then(
@@ -100,6 +114,38 @@ export class FilterComponent implements OnInit, OnChanges {
         for (const it of success)
         {
           this.m_systems.push(
+            {label: it.text, value: {id: it.id, name: it.text, code: it.text}}
+          );
+        }
+      }, (failure) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Filter failure',
+          detail: failure});
+      }
+    );
+
+    this.gamesService.getDays().then(
+      (success) => {
+        for (const it of success)
+        {
+          this.m_days.push(
+            {label: it.text, value: {id: it.id, name: it.text, code: it.text}}
+          );
+        }
+      }, (failure) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Filter failure',
+          detail: failure});
+      }
+    );
+
+    this.gamesService.getTimes().then(
+      (success) => {
+        for (const it of success)
+        {
+          this.m_times.push(
             {label: it.text, value: {id: it.id, name: it.text, code: it.text}}
           );
         }
@@ -164,6 +210,34 @@ export class FilterComponent implements OnInit, OnChanges {
         }
       }
     }
+    if (changes.day)
+    {
+      if (changes.day.currentValue !== changes.day.previousValue)
+      {
+        for (const it of this.m_days)
+        {
+          if (it.value.id === changes.day.currentValue)
+          {
+            this.m_day = it.value;
+            break;
+          }
+        }
+      }
+    }
+    if (changes.time)
+    {
+      if (changes.time.currentValue !== changes.time.previousValue)
+      {
+        for (const it of this.m_times)
+        {
+          if (it.value.id === changes.time.currentValue)
+          {
+            this.m_time = it.value;
+            break;
+          }
+        }
+      }
+    }
     console.log(changes);
   }
 
@@ -182,4 +256,13 @@ export class FilterComponent implements OnInit, OnChanges {
     this.systemChange.emit(this.m_system.id);
   }
 
+  public ddDayChange(e): void
+  {
+    this.dayChange.emit(this.m_day.id);
+  }
+
+  public ddTimeChange(e): void
+  {
+    this.timeChange.emit(this.m_time.id);
+  }
 }

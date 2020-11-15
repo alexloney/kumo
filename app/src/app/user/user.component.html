@@ -10,6 +10,8 @@
             [type]="filterType" (typeChange)="filterType=$event"
             [dm]="filterDm" (dmChange)="filterDm=$event"
             [system]="filterSystem" (systemChange)="filterSystem=$event"
+            [day]="filterDay" (dayChange)="filterDay=$event"
+            [time]="filterTime" (timeChange)="filterTime=$event"
             [openGames]="filterOpenGames" (openGamesChange)="filterOpenGames=$event"
             ></app-filter></div>
     <div><app-games
@@ -17,5 +19,7 @@
             [type]="filterType"
             [dm]="filterDm"
             [system]="filterSystem"
+            [day]="filterDay"
+            [time]="filterTime"
             [openGames]="filterOpenGames"></app-games></div>
 </div>

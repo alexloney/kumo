@@ -10,6 +10,7 @@ import { Component, Input, OnInit, SimpleChanges, OnChanges, Output, EventEmitte
 export class GameComponent implements OnInit, OnChanges {
 
   @Input() gameData: GameData;
+  @Input() refresh: number;
   @Output() registerGame = new EventEmitter<number>();
   @Output() unRegisterGame = new EventEmitter<number>();
 
@@ -52,11 +53,4 @@ export class GameComponent implements OnInit, OnChanges {
       }
     );
   }
-
-  public registerChange(): void {
-    setTimeout(() => {
-      this.populateUserLookup();
-    }, 500);
-  }
-
 }

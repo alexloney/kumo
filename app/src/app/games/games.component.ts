@@ -14,6 +14,8 @@ export class GamesComponent implements OnInit, OnChanges {
   @Input() type: number;
   @Input() dm: number;
   @Input() system: number;
+  @Input() day: number;
+  @Input() time: number;
   @Input() openGames: boolean;
 
   private FT_ANY = 0;
@@ -24,6 +26,8 @@ export class GamesComponent implements OnInit, OnChanges {
   public m_type: number;
   public m_dm: number;
   public m_system: number;
+  public m_day: number;
+  public m_time: number;
   public m_openGames: boolean;
 
   public m_allGames: GameData[];
@@ -57,6 +61,14 @@ export class GamesComponent implements OnInit, OnChanges {
     if (changes.system)
     {
       this.m_system = changes.system.currentValue;
+    }
+    if (changes.day)
+    {
+      this.m_day = changes.day.currentValue;
+    }
+    if (changes.time)
+    {
+      this.m_time = changes.time.currentValue;
     }
     if (changes.openGames)
     {
@@ -103,6 +115,22 @@ export class GamesComponent implements OnInit, OnChanges {
         }
       }
 
+      if (typeof this.m_day !== 'undefined' && this.m_day !== 0)
+      {
+        if (game.dayid !== this.m_day)
+        {
+          pass = false;
+        }
+      }
+      
+      if (typeof this.m_time !== 'undefined' && this.m_time !== 0)
+      {
+        if (game.timeid !== this.m_time)
+        {
+          pass = false;
+        }
+      }
+
       if (typeof this.m_filterStr !== 'undefined' && this.m_filterStr.length > 0)
       {
         const tmpStr = this.m_filterStr.toLowerCase().replace(/\W/g, '');
@@ -136,6 +164,7 @@ export class GamesComponent implements OnInit, OnChanges {
 
       if (pass)
       {
+        game.refresh += 1;
         this.m_filteredGames.push(game);
       }
     }

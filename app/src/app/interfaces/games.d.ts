@@ -15,6 +15,7 @@ declare interface GameData
     waitlistmax: number;
     waitlisted: number[];
     description: string;
+    refresh: number;
 }
 
 declare interface LookupType
