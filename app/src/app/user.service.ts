@@ -1,3 +1,4 @@
+import { DatabaseService } from './database.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -13,7 +14,7 @@ export class UserService {
   private name: string = '';
   private userId: number = 0;
 
-  constructor() {}
+  constructor(private db: DatabaseService) {}
 
   public getName(): string
   {
@@ -23,13 +24,20 @@ export class UserService {
   public logout(): any
   {
     return new Promise((resolve, reject) => {
-      this.userType = this.UNKNOWN;
-      this.name = '';
-      this.userId = 0;
+      this.db.logout().then(
+        (success) => {
 
-      resolve();
+          // Clear any internal variables
+          this.userType = this.UNKNOWN;
+          this.name = '';
+          this.userId = 0;
 
-      // TODO: Implement database communication for logging out
+          resolve();
+        },
+        (failure) => {
+          reject(failure);
+        }
+      );
     });
   }
 
@@ -46,11 +54,17 @@ export class UserService {
         reject('ID was not a number');
       }
 
-      // TODO: Perform actual DB communication to log user in
-      this.userType = this.USER;
-      this.name = 'Alex';
-      this.userId = 1;
-      resolve();
+      this.db.loginUser(parseInt(id, 10)).then(
+        (success: UserDetails) => {
+          this.userType = success.type;
+          this.userId = success.id;
+          this.name = success.name;
+          resolve();
+        },
+        (failure) => {
+          reject(failure);
+        }
+      );
     });
   }
 
@@ -73,9 +87,16 @@ export class UserService {
         reject('ID was not a number');
       }
 
-      // TODO: Perform actual DB communication to register user
-      this.userType = this.USER;
-      resolve();
+      this.db.registerUser(parseInt(id, 10), name).then(
+        (success: UserDetails) => {
+          this.userType = success.type;
+          this.userId = success.id;
+          this.name = success.name;
+          resolve();
+        },
+        (failure) => {
+          reject(failure);
+        });
     });
   }
 
@@ -112,23 +133,7 @@ export class UserService {
 
   public getUserNames(ids: number[]): any
   {
-    return new Promise((resolve, reject) => {
-      // TODO: Actual database communication
-
-      const lookup = {
-        0: 'admin',
-        1: 'John',
-        2: 'Chad',
-        3: 'Brandon',
-        4: 'Sarah',
-        5: 'Smith',
-        6: 'Jacob',
-        7: 'Johnson',
-        8: 'Clark',
-        9: 'Klim'
-      };
-
-      resolve(lookup);
-    });
+    // TODO: Maybe parse response?
+    return this.db.getUserNamesByIds(ids);
   }
 }

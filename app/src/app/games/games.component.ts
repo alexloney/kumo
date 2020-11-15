@@ -157,6 +157,28 @@ export class GamesComponent implements OnInit, OnChanges {
     );
   }
 
+  public registerGameById(id: number): void
+  {
+    let found = false;
+    for (const game of this.m_allGames)
+    {
+      if (game.id === id)
+      {
+        found = true;
+        this.registerGame(null, game);
+        break;
+      }
+    }
+
+    if (!found)
+    {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Register Error',
+        detail: 'Unable to locate game with ID ' + id});
+    }
+  }
+
   public dropGame(e: Event, game: GameData): void
   {
     console.log('Emitting drop');
@@ -171,6 +193,28 @@ export class GamesComponent implements OnInit, OnChanges {
           detail: failure});
       }
     );
+  }
+
+  public dropGameById(id: number): void
+  {
+    let found = false;
+    for (const game of this.m_allGames)
+    {
+      if (game.id === id)
+      {
+        found = true;
+        this.dropGame(null, game);
+        break;
+      }
+    }
+
+    if (!found)
+    {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Register Error',
+        detail: 'Unable to locate game with ID ' + id});
+    }
   }
 
 }

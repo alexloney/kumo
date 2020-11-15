@@ -1,6 +1,6 @@
 import { MessageService } from 'primeng/api';
 import { UserService } from './../user.service';
-import { Component, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, OnChanges, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-game',
@@ -10,6 +10,8 @@ import { Component, Input, OnInit, SimpleChanges, OnChanges } from '@angular/cor
 export class GameComponent implements OnInit, OnChanges {
 
   @Input() gameData: GameData;
+  @Output() registerGame = new EventEmitter<number>();
+  @Output() unRegisterGame = new EventEmitter<number>();
 
   public showDialog: boolean = false;
   public userLookup: any = [];

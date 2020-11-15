@@ -7,11 +7,13 @@
 -->
 
 <div *ngFor="let game of m_filteredGames">
+    <app-game [gameData]="game"
+        (registerGame)="registerGameById($event)"
+        (unRegisterGame)="dropGameById($event)"></app-game>
     <span *ngIf="game.registered.includes(userService.getMyId()) || game.waitlisted.includes(userService.getMyId())">
         <p-button label="Drop" (click)="dropGame($event, game)"></p-button>
     </span>
     <span *ngIf="!game.registered.includes(userService.getMyId()) && !game.waitlisted.includes(userService.getMyId())">
         <p-button label="Register" (click)="registerGame($event, game)"></p-button>
     </span>
-    <app-game [gameData]="game"></app-game>
 </div>

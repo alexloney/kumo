@@ -16,3 +16,9 @@ declare interface GameData
     waitlisted: number[];
     description: string;
 }
+
+declare interface LookupType
+{
+    id: number;
+    text: string;
+}
